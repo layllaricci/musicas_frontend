@@ -1,115 +1,184 @@
+:root {
+    --fundo: #1a0b2e;
+    --superficie: #251240;
+    --borda: #3d2766;
+    --texto: #f3ebff;
+    --suave: #a999c9;
+    --destaque: #c9a6ff;
+    --perigo: #ff8fa3;
+}
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f4f8;
-    color: #222;
-    padding: 30px;
+    margin: 0;
+    padding: 48px 20px 64px;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    line-height: 1.5;
+}
+
+header,
+main {
+    max-width: 640px;
+    margin: 0 auto;
 }
 
 header {
-    max-width: 900px;
-    margin: 0 auto 25px;
-    padding-bottom: 18px;
-    border-bottom: 3px solid #5b55df;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--borda);
 }
 
-header h1 {
-    font-size: 30px;
+h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
 }
 
 header a {
-    color: #5b55df;
-    font-weight: bold;
-    text-decoration: underline;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--destaque);
+    color: var(--fundo);
+    font-weight: 700;
+    text-decoration: none;
 }
 
-main {
-    max-width: 900px;
-    margin: 0 auto;
+header a:hover {
+    background: #ddc6ff;
 }
 
 #listaMusicas {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 
+/* Cartão: o disco de vinil é desenhado só com CSS */
 .musica {
-    background-color: white;
-    border: 2px solid #d0d0da;
-    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    column-gap: 20px;
+    align-items: start;
     padding: 20px;
+    background: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+}
+
+.musica::before {
+    content: "";
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    width: 84px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        conic-gradient(from 20deg, transparent 0 18%, rgba(255, 255, 255, 0.14) 25%, transparent 32% 68%, rgba(255, 255, 255, 0.14) 75%, transparent 82%),
+        radial-gradient(circle, var(--fundo) 0 4%, var(--destaque) 4% 30%, transparent 30%),
+        repeating-radial-gradient(circle, #0d0617 0 2px, #1c0e30 2px 4px);
+}
+
+.musica > * {
+    grid-column: 2;
+}
+
+.musica:hover::before {
+    animation: girar 2.4s linear infinite;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
 }
 
 .musica h2 {
-    font-size: 23px;
-    margin-bottom: 5px;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
-.artista {
-    font-size: 17px;
-    margin-bottom: 5px;
+.musica .artista {
+    margin: 2px 0 0;
+    font-size: 1.05rem;
 }
 
-.detalhes {
-    color: #777;
-    font-size: 14px;
-    margin-bottom: 14px;
+.musica .detalhes {
+    margin: 4px 0 16px;
+    font-size: 0.9rem;
+    color: var(--suave);
 }
 
 .acoes {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
-.editar,
-.apagar {
-    padding: 9px 16px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: white;
-}
-
-.editar {
-    color: #5b55df;
-    border: 2px solid #5b55df;
+.acoes .editar,
+.acoes .apagar {
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: transparent;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.editar:hover {
-    background-color: #5b55df;
-    color: white;
+.acoes .editar {
+    border: 1.5px solid var(--destaque);
+    color: var(--destaque);
 }
 
-.apagar {
-    color: #d62920;
-    border: 2px solid #d62920;
+.acoes .editar:hover {
+    background: var(--destaque);
+    color: var(--fundo);
 }
 
-.apagar:hover {
-    background-color: #d62920;
-    color: white;
+.acoes .apagar {
+    border: 1.5px solid var(--perigo);
+    color: var(--perigo);
 }
 
-@media (max-width: 600px) {
-    body {
-        padding: 15px;
+.acoes .apagar:hover {
+    background: var(--perigo);
+    color: var(--fundo);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--texto);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .musica {
+        grid-template-columns: 60px 1fr;
+        column-gap: 16px;
     }
 
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+    .musica::before {
+        width: 60px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .musica:hover::before {
+        animation: none;
     }
 }
